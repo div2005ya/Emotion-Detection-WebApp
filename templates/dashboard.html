@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <h1>Welcome, {{ name }}</h1>
+
+    <p>
+        You have successfully logged into EmotionSense AI.
+        Start detecting emotions from images or your webcam.
+    </p>
+
+    <div class="hero-buttons">
+
+        <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+
+            <input type="file" name="image" accept="image/*" required>
+
+            <br><br>
+
+            <button type="submit" class="btn-primary">
+                Upload Image
+            </button>
+
+        </form>
+
+        <button class="btn-secondary">
+            Open Camera
+        </button>
+
+    </div>
+
+</section>
+
+<section class="features">
+
+    <div class="feature-card">
+        <h3>Total Predictions</h3>
+        <p>0</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Last Emotion</h3>
+        <p>Not Available</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Account</h3>
+        <p>{{ name }}</p>
+    </div>
+
+</section>
+
+<div style="text-align:center; margin:60px 0;">
+    <a href="{{ url_for('logout') }}">
+        <button class="btn-secondary">Logout</button>
+    </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}EmotionSense AI{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+            EmotionSense AI
+        </div>
+
+        <ul class="nav-links">
+
+            <li><a href="/">Home</a></li>
+
+            <li><a href="/about">About</a></li>
+
+            <li><a href="/login">Login</a></li>
+
+            <li><a href="/register">Register</a></li>
+
+        </ul>
+
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <footer>
+
+        <h3>EmotionSense AI</h3>
+
+        <p>Facial Emotion Detection using Artificial Intelligence.</p>
+
+        <p>© 2026 EmotionSense AI. All Rights Reserved.</p>
+
+    </footer>
+
+</body>
+
+</html>

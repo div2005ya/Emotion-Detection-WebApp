@@ -50,9 +50,7 @@ def register():
         if password != confirm_password:
             return "Passwords do not match."
 
-        existing_user = User.query.filter_by(email=email).first()
-
-        if existing_user:
+        if User.query.filter_by(email=email).first():
             return "Email already exists."
 
         hashed_password = generate_password_hash(password)
@@ -85,6 +83,7 @@ def login():
 
             session["user"] = user.fullname
             session["email"] = user.email
+            session["image"] = None
 
             return redirect(url_for("dashboard"))
 
@@ -99,7 +98,11 @@ def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    return render_template("dashboard.html", name=session["user"])
+    return render_template(
+        "dashboard.html",
+        name=session["user"],
+        image=session.get("image")
+    )
 
 
 @app.route("/predict", methods=["POST"])
@@ -109,20 +112,24 @@ def predict():
         return redirect(url_for("login"))
 
     if "image" not in request.files:
-        return "No image selected."
+        return redirect(url_for("dashboard"))
 
     file = request.files["image"]
 
     if file.filename == "":
-        return "No image selected."
+        return redirect(url_for("dashboard"))
 
     filename = secure_filename(file.filename)
+
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
     filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
 
     file.save(filepath)
 
-    return f"Image uploaded successfully: {filename}"
+    session["image"] = filename
+
+    return redirect(url_for("dashboard"))
 
 
 @app.route("/logout")
